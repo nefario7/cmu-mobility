@@ -108,6 +108,12 @@ figure('Name',str);
 for i = 1:3
     subplot(5, 3, i)
     plot(time_vector, pos_des(i,:),'b',time_vector, pos(i,:),'r');
+    
+    if i == 3
+        disp(labels{i})
+        S = stepinfo(pos(i,:) ,time_vector)
+        disp("Steady State position " + pos(i, end))
+    end
     grid on
     xlabel('time [s]')
     ylabel(labels{i})
@@ -122,6 +128,11 @@ title_name = {'Orientation in \phi','Orientation in \theta','Orientation in \psi
 for i = 1:3
     subplot(5, 3, i+3)
     plot(time_vector, rpy_des(i,:), 'b', time_vector, rpy(i,:), 'r');
+    if i == 3
+        disp(labels{i})
+        S = stepinfo(rpy(i,:) ,time_vector)
+        disp("Steady State attitude " + rpy(i, end))
+    end
     grid on
     xlabel('time [s]')
     ylabel(labels{i})
@@ -137,6 +148,12 @@ title_name = {'Velocity in x','Velocity in y','Velocity in z'};
 for i = 1:3
     subplot(5, 3, i+6)
     plot(time_vector, vel_des(i,:), 'b', time_vector, vel(i,:), 'r');
+    
+    if i == 3
+        disp(labels{i})
+        S = stepinfo(vel(i,:) ,time_vector)
+        disp("Steady State velocity " + vel(i, end))
+    end
     grid on
     xlabel('time [s]')
     ylabel(labels{i})
@@ -151,6 +168,11 @@ title_name = {'Angular Velocity in x','Angular Velocity in y','Angular Velocity 
 for i = 1:3
     subplot(5, 3, i+9)
     plot(time_vector, ang_vel_des(i,:),'b',time_vector, ang_vel(i,:),'r');
+    if i == 3
+        disp(labels{i})
+        S = stepinfo(ang_vel(i,:) ,time_vector)
+        disp("Steady State attitude " + ang_vel(i, end))
+    end
     grid on
     xlabel('time [s]')
     ylabel(labels{i})

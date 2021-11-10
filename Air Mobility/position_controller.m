@@ -28,16 +28,63 @@ function [F, acc] = position_controller(current_state, desired_state, params, qu
 %
 %************  POSITION CONTROLLER ************************
 
-% Example PD gains
-Kp1 = 17;
-Kd1 = 6.6;
-
-Kp2 = 17;
-Kd2 = 6.6;
-
-Kp3 = 20;
-Kd3 = 9;
-
 % Write code here
+if question == 2 || question == 41 || question == 43 || question == 44
+    Kp1 = 17;
+    Kd1 = 6.6;
+    
+    Kp2 = 17;
+    Kd2 = 6.6;
+    
+    Kp3 = 20;
+    Kd3 = 9;
+
+elseif question == 3 || question == 42 ||question == 45
+    Kp1 = 17;
+    Kd1 = 6.6;
+    
+    Kp2 = 17;
+    Kd2 = 6.6;
+    
+    Kp3 = 80;
+    Kd3 = 9;
+elseif question == 52 ||  question == 53 || question == 58 || question == 59
+%     % Gain Set 1
+%     Kp1 = 20;
+%     Kd1 = 8;
+%     
+%     Kp2 = 20;
+%     Kd2 = 8;
+%     
+%     Kp3 = 18;
+%     Kd3 = 9;
+    
+    % Gain Set 2
+    Kp1 = 20;
+    Kd1 = 8;
+    
+    Kp2 = 20;
+    Kd2 = 8;
+    
+    Kp3 = 10;
+    Kd3 = 19;
+end
+
+% Gain values for P and D
+Kp = [Kp1; Kp2; Kp3];
+Kd = [Kd1; Kd2; Kd3];
+
+% Errors
+error.pos = current_state.pos - desired_state.pos;
+error.vel = current_state.vel - desired_state.vel;
+
+% Acceleration Error
+e_xyz_ddot = - Kp .* error.pos - Kd .* error.vel;
+
+% Required Force
+f = params.mass * transpose([0; 0; 1]) * ([0; 0; params.gravity] + e_xyz_ddot + desired_state.acc);
+
+acc = e_xyz_ddot + desired_state.acc;
+F = max(0, f);
 
 end

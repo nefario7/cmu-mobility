@@ -1,4 +1,4 @@
-function [M] = attitude_controller(state,desired_state,params,question)
+function [M] = attitude_controller(current_state, desired_state, params, question)
 
 % Input parameters
 % 
@@ -26,17 +26,58 @@ function [M] = attitude_controller(state,desired_state,params,question)
 %
 %************  ATTITUDE CONTROLLER ************************
 
-% Example PD gains
-Kpphi = 190;
-Kdphi = 30;
+if question == 2 || question == 41 || question == 43 || question == 44
+    % Example PD gains
+    Kpphi = 150;
+    Kdphi = 30;
+    
+    Kptheta = 160;
+    Kdtheta = 30;
+    
+    Kppsi = 80;
+    Kdpsi = 17.88;
+    
+elseif question == 3 || question == 42 || question == 45
+    Kpphi = 190;
+    Kdphi = 30;
+    
+    Kptheta = 198;
+    Kdtheta = 30;
+    
+    Kppsi = 80;
+    Kdpsi = 17.88;
 
-Kptheta = 198;
-Kdtheta = 30;
+elseif question == 52 ||  question == 53 || question == 58 || question == 59
+%     % Gain Set 1
+%     Kpphi = 190;
+%     Kdphi = 30;
+%     
+%     Kptheta = 190;
+%     Kdtheta = 30;
+%     
+%     Kppsi = 70;
+%     Kdpsi = 18;
 
-Kppsi = 80;
-Kdpsi = 17.88;
+    % Gain Set 2
+    Kpphi = 190;
+    Kdphi = 30;
+    
+    Kptheta = 190;
+    Kdtheta = 30;
+    
+    Kppsi = 20;
+    Kdpsi = 18;
+end
 
-% Write code here
+% Gain values for P and D
+Kp = [Kpphi; Kptheta; Kppsi];
+Kd = [Kdphi; Kdtheta; Kdpsi];
 
+% Errors
+error.rot = current_state.rot - desired_state.rot;
+error.omega = current_state.omega - desired_state.omega;
+
+% Required Moment
+M = params.inertia * (-Kp .* error.rot - Kd .* error.omega);
 end
 
